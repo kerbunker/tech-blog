@@ -1,14 +1,11 @@
 <article class="post">
   <div class="card">
-    <div class="card-header">
-      <h5>{{title}}</h5>
-      <p>Posted by {{user.username}} on {{format_date created_at}}</p>
+    <div class="card-header dark-color">
+      <h5 class="light-color">{{title}}</h5>
+      <p class="light-color">Posted by {{user.username}} on {{format_date created_at}}</p>
     </div>
-    <div class="card-body">
+    <div class="card-body light-background dark-border">
       <p class="card-text">{{post_content}}</p>
     </div>
-  </div>
-  <div class="meta">
-    <a href="/post/{{id}}">{{comments.length}} {{format_plural "comment" comments.length}}</a>
   </div>
 </article>

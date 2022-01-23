@@ -105,4 +105,9 @@ router.get('/signup', (req, res) => {
   res.render('signup');
 });
 
+router.get('/create-post', (req, res) => {
+
+  res.render('create-post');
+});
+
 module.exports = router;
