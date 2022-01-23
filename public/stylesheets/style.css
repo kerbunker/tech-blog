@@ -1,0 +1,51 @@
+.card-header {
+  display: inline-flex;
+  justify-content: space-between;
+}
+.card-header p {
+  text-align: right;
+  font-size: small;
+}
+
+header,
+footer {
+}
+
+.container {
+  padding-bottom: 5px;
+}
+
+.nav-link {
+  color: aliceblue;
+  text-decoration: none;
+  border: none;
+}
+
+.nav-link button {
+  border: none;
+}
+
+.navbar {
+  display: inline;
+}
+
+.title {
+  background-color: antiquewhite;
+  border-radius: 10%;
+  width: fit-content;
+  padding: 10px;
+  margin-bottom: 5px;
+}
+
+.title a {
+  text-decoration: none;
+  color: #331a00;
+}
+
+.light-color {
+  color: antiquewhite;
+}
+
+.dark-color {
+  background-color: #331a00;
+}
