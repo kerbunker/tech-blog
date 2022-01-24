@@ -1,35 +1,23 @@
 <article>
-  <a href="/dashboard"> &larr; Back to dashboard</a>
-  <h2>
-    Edit Post
-  </h2>
   <form class="edit-post-form">
-    <div>
-      <input name="post-title" type="text" value="{{post.title}}" />
-      <input name="post-content" type="text" value="{{post.post_content}}" />
+    <div class="card">
+      <h5 class="card-header">Edit Post</h5>
+      <div class="card-body">
+        <div class="mb-3">
+          <label for="post-title" class="form-label">Title</label>
+          <input type="text" class="form-control" name="post-title" id="post-title" value="{{post.title}}" />
+        </div>
+        <div class="mb-3">
+          <label for="post-content" class="form-label">Content</label>
+          <textarea class="form-control" name="post-content" id="post-content" rows="3">{{post.post_content}}</textarea>
+        </div>
+        <button type="submit" class="btn">Update Post</button>
+        <button type="button" class="btn delete-post-btn">Delete</button>
+      </div>
     </div>
-    <div>
-      by you on {{format_date post.created_at}}
-      |
-      <a href="/post/{{post.id}}">{{post.comments.length}} {{format_plural "comment" post.comments.length}}</a>
-    </div>
-    <button type="submit">Save post</button>
-    <button type="button" class="delete-post-btn">Delete post</button>
   </form>
 </article>
 
-<form class="comment-form">
-  <div>
-    <textarea name="comment-body"></textarea>
-  </div>
-
-  <div>
-    <button type="submit">add comment</button>
-  </div>
-</form>
-
-{{> comments post.comments}}
 
 <script src="/javascript/edit-post.js"></script>
 <script src="/javascript/delete-post.js"></script>
-<script src="/javascript/comment.js"></script>
