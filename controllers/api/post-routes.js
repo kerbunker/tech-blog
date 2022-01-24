@@ -1,9 +1,9 @@
+// imports the data from the necessary packages and files
 const router = require('express').Router();
-//const sequelize = require('../../config/connection');
 const { Post, User, Comment } = require('../../models');
 const withAuth = require('../../utils/auth');
 
-// get all users
+// get all posts
 router.get('/', (req, res) => {
   Post.findAll({
     attributes: [
@@ -14,6 +14,7 @@ router.get('/', (req, res) => {
     ],
     include: [
       {
+        // includes the comments on the post
         model: Comment,
         attributes: ['id', 'comment_text', 'post_id', 'user_id', 'created_at'],
         include: {
@@ -22,6 +23,7 @@ router.get('/', (req, res) => {
         }
       },
       {
+        // includes the user who made the post
         model: User,
         attributes: ['username']
       }
@@ -34,6 +36,8 @@ router.get('/', (req, res) => {
     });
 });
 
+
+// finds a post by the given id
 router.get('/:id', (req, res) => {
   Post.findOne({
     where: {
@@ -47,6 +51,7 @@ router.get('/:id', (req, res) => {
     ],
     include: [
       {
+        // includes the comments on the post
         model: Comment,
         attributes: ['id', 'comment_text', 'post_id', 'user_id', 'created_at'],
         include: {
@@ -55,6 +60,7 @@ router.get('/:id', (req, res) => {
         }
       },
       {
+        // includes the user who made the post
         model: User,
         attributes: ['username']
       }
@@ -73,6 +79,7 @@ router.get('/:id', (req, res) => {
     });
 });
 
+// creates a new post - only available when logged in
 router.post('/', withAuth, (req, res) => {
   Post.create({
     title: req.body.title,
@@ -86,6 +93,7 @@ router.post('/', withAuth, (req, res) => {
     });
 });
 
+// updates an existing post with the given id
 router.put('/:id', withAuth, (req, res) => {
   Post.update(
     {
@@ -111,6 +119,7 @@ router.put('/:id', withAuth, (req, res) => {
     });
 });
 
+// deletes the post with the given id
 router.delete('/:id', withAuth, (req, res) => {
   console.log('id', req.params.id);
   Post.destroy({
@@ -131,4 +140,5 @@ router.delete('/:id', withAuth, (req, res) => {
     });
 });
 
+// esports the posts routes
 module.exports = router;

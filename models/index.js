@@ -1,7 +1,9 @@
+// connects the necessary model files
 const Post = require('./Post');
 const User = require('./User');
 const Comment = require('./Comment');
 
+// sets up the associations between the user, comments, and posts
 User.hasMany(Post, {
   foreignKey: 'user_id'
 });

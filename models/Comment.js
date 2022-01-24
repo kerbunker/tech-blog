@@ -1,8 +1,10 @@
+// gets the model and datatypes info from sequelize package and the connected server data
 const { Model, DataTypes } = require('sequelize');
 const sequelize = require('../config/connection');
 
 class Comment extends Model {}
 
+// model for a new Comment to be made
 Comment.init(
   {
     id: {

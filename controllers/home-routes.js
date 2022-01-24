@@ -4,7 +4,6 @@ const { Post, User, Comment } = require('../models');
 
 // get all posts for homepage
 router.get('/', (req, res) => {
-  console.log('======================');
   Post.findAll({
     attributes: [
       'id',
@@ -14,6 +13,7 @@ router.get('/', (req, res) => {
     ],
     include: [
       {
+        // includes the comments associated with the post
         model: Comment,
         attributes: ['id', 'comment_text', 'post_id', 'user_id', 'created_at'],
         include: {
@@ -22,6 +22,7 @@ router.get('/', (req, res) => {
         }
       },
       {
+        // includes the username of the user who posted
         model: User,
         attributes: ['username']
       }
@@ -29,7 +30,7 @@ router.get('/', (req, res) => {
   })
     .then(dbPostData => {
       const posts = dbPostData.map(post => post.get({ plain: true }));
-
+      // renders the homepage handlebar
       res.render('homepage', {
         posts,
         loggedIn: req.session.loggedIn
@@ -41,7 +42,7 @@ router.get('/', (req, res) => {
     });
 });
 
-// get single post
+// get single post given the post id
 router.get('/post/:id', (req, res) => {
   Post.findOne({
     where: {
@@ -55,6 +56,7 @@ router.get('/post/:id', (req, res) => {
     ],
     include: [
       {
+        // includes the posts comments
         model: Comment,
         attributes: ['id', 'comment_text', 'post_id', 'user_id', 'created_at'],
         include: {
@@ -63,6 +65,7 @@ router.get('/post/:id', (req, res) => {
         }
       },
       {
+        //includes the author
         model: User,
         attributes: ['username']
       }
@@ -75,7 +78,7 @@ router.get('/post/:id', (req, res) => {
       }
 
       const post = dbPostData.get({ plain: true });
-
+      // renders the single-post handlebar data
       res.render('single-post', {
         post,
         loggedIn: req.session.loggedIn
@@ -87,27 +90,32 @@ router.get('/post/:id', (req, res) => {
     });
 });
 
+// logs the user in or redirects to the homepage if the user is already logged in
 router.get('/login', (req, res) => {
   if (req.session.loggedIn) {
     res.redirect('/');
     return;
   }
-
+  // brings up the login page handlebar
   res.render('login');
 });
 
+// allows the user to signup
 router.get('/signup', (req, res) => {
+  // if the user is already logged in, they are instead directed to the homepage
   if (req.session.loggedIn) {
     res.redirect('/');
     return;
   }
-
+  // shows the signup page
   res.render('signup');
 });
 
+// goes to the create post page to make a new post
 router.get('/create-post', (req, res) => {
 
   res.render('create-post');
 });
 
+// exports the home routes
 module.exports = router;

@@ -1,7 +1,9 @@
+//Imports the data from the packages and the models and helper functions
 const router = require('express').Router();
 const { Comment } = require('../../models');
 const withAuth = require('../../utils/auth');
 
+// route to get all comments
 router.get('/', (req, res) => {
   Comment.findAll()
     .then(dbCommentData => res.json(dbCommentData))
@@ -11,6 +13,7 @@ router.get('/', (req, res) => {
     });
 });
 
+// route to post a new comment - only available when logged in
 router.post('/', withAuth, (req, res) => {
   Comment.create({
     comment_text: req.body.comment_text,
@@ -24,6 +27,7 @@ router.post('/', withAuth, (req, res) => {
     });
 });
 
+// route to delete a comment by id - only available when logged in
 router.delete('/:id', withAuth, (req, res) => {
   Comment.destroy({
     where: {
@@ -43,4 +47,5 @@ router.delete('/:id', withAuth, (req, res) => {
     });
 });
 
+// exports the comment routes
 module.exports = router;

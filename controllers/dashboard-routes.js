@@ -1,12 +1,10 @@
+// gets the necessary information from files and packages
 const router = require('express').Router();
-const sequelize = require('../config/connection');
 const { Post, User, Comment } = require('../models');
 const withAuth = require('../utils/auth');
 
-// get all posts for dashboard
+// get all posts from logged in user
 router.get('/', withAuth, (req, res) => {
-  console.log(req.session);
-  console.log('======================');
   Post.findAll({
     where: {
       user_id: req.session.user_id
@@ -19,6 +17,7 @@ router.get('/', withAuth, (req, res) => {
     ],
     include: [
       {
+        // includes the comments associated with the posts
         model: Comment,
         attributes: ['id', 'comment_text', 'post_id', 'user_id', 'created_at'],
         include: {
@@ -27,6 +26,7 @@ router.get('/', withAuth, (req, res) => {
         }
       },
       {
+        // includes the user who made the post
         model: User,
         attributes: ['username']
       }
@@ -34,6 +34,7 @@ router.get('/', withAuth, (req, res) => {
   })
     .then(dbPostData => {
       const posts = dbPostData.map(post => post.get({ plain: true }));
+      // renders the dashboard handlebars page with the given post data
       res.render('dashboard', { posts, loggedIn: true });
     })
     .catch(err => {
@@ -42,6 +43,7 @@ router.get('/', withAuth, (req, res) => {
     });
 });
 
+// gets a single post to edit by id
 router.get('/edit/:id', withAuth, (req, res) => {
   Post.findByPk(req.params.id, {
     attributes: [
@@ -52,6 +54,7 @@ router.get('/edit/:id', withAuth, (req, res) => {
     ],
     include: [
       {
+        // includes the comments associated with the post
         model: Comment,
         attributes: ['id', 'comment_text', 'post_id', 'user_id', 'created_at'],
         include: {
@@ -60,6 +63,7 @@ router.get('/edit/:id', withAuth, (req, res) => {
         }
       },
       {
+        // includes the user who made the post
         model: User,
         attributes: ['username']
       }
@@ -69,6 +73,7 @@ router.get('/edit/:id', withAuth, (req, res) => {
       if (dbPostData) {
         const post = dbPostData.get({ plain: true });
         
+        // renders the data on the edit-post view
         res.render('edit-post', {
           post,
           loggedIn: true
@@ -82,9 +87,11 @@ router.get('/edit/:id', withAuth, (req, res) => {
     });
 });
 
+// creates a post using the create-post view
 router.get('/create-post', withAuth, (req, res) => {
 
   res.render('create-post');
 });
 
+// exports the dashboard routes
 module.exports = router;

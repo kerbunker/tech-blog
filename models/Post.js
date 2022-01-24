@@ -1,10 +1,11 @@
+// gets the model and datatypes info from sequelize package and the connected server data
 const { Model, DataTypes } = require('sequelize');
 const sequelize = require('../config/connection');
 
 class Post extends Model {
 }
 
-// create fields/columns for Post model
+// models how a new Post is created
 Post.init(
   {
     id: {
