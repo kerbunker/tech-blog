@@ -4,6 +4,7 @@
   justify-content: space-between;
   background-color: #331a00;
   color: antiquewhite;
+  text-decoration: none;
 }
 .card-header p {
   text-align: right;
@@ -88,6 +89,7 @@ ul {
   padding: 5px;
   text-decoration: none;
   background-color: #331a00;
+  margin-left: 20px;
 }
 
 .placeholder {
